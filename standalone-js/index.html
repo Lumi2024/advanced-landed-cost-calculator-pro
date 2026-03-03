@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Advanced Landed Cost Calculator PRO</title>
+<title>Import Cost Simulator PRO</title>
 
 <link rel="stylesheet" href="style.css">
 
 <script src="config.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="app.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -17,12 +20,12 @@
 
 <div class="app-wrapper">
 
-<header class="header">
-<h1>📦 Landed Cost Calculator PRO</h1>
-<p>Smart Import Cost Simulation Tool</p>
+<header class="hero">
+<h1>📦 Import Cost Simulator PRO</h1>
+<p>Professional Landed Cost Business Intelligence Tool</p>
 </header>
 
-<section class="card">
+<div class="card">
 
 <div class="grid">
 
@@ -32,7 +35,7 @@
 
 <input type="number" id="customsRate" placeholder="Customs %">
 
-<input type="number" id="marginRate" placeholder="Margin %">
+<input type="number" id="marginRate" placeholder="Target Margin %">
 
 <select id="country"></select>
 
@@ -41,18 +44,20 @@
 </div>
 
 <div class="buttons">
-<button onclick="calculate()">🚀 Calculate</button>
-<button onclick="exportCSV()">📊 CSV</button>
-<button onclick="exportPDF()">📄 PDF</button>
-<button onclick="saveScenario()">💾 Save</button>
+<button onclick="calculate()">Calculate</button>
+<button onclick="exportCSV()">CSV Export</button>
+<button onclick="exportPDF()">PDF Export</button>
+<button onclick="saveScenario()">Save Scenario</button>
 </div>
 
 <div id="result" class="result-box"></div>
 
-</section>
+<canvas id="profitChart"></canvas>
+
+</div>
 
 <footer class="footer">
-Advanced PRO Calculator • SaaS Ready Version
+Premium Business Calculator SaaS Edition
 </footer>
 
 </div>
