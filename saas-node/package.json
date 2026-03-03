@@ -1,0 +1,23 @@
+{
+  "name": "landed-cost-calculator-pro",
+  "version": "1.0.0",
+  "description": "Advanced Landed Cost Calculator SaaS API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "landed-cost",
+    "vat-calculator",
+    "customs-calculator",
+    "ecommerce",
+    "import"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
