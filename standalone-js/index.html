@@ -1,64 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Import Cost Simulator PRO</title>
+<title>Import Intelligence PRO</title>
 
 <link rel="stylesheet" href="style.css">
 
 <script src="config.js"></script>
-
+<script src="auth.js"></script>
+<script src="scenarioManager.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script src="app.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
 <body>
 
-<div class="app-wrapper">
+<div class="topbar">
+    <h2>📊 Import Intelligence PRO</h2>
+    <button onclick="toggleTheme()">🌓</button>
+</div>
 
-<header class="hero">
-<h1>📦 Import Cost Simulator PRO</h1>
-<p>Professional Landed Cost Business Intelligence Tool</p>
-</header>
+<div class="dashboard">
 
 <div class="card">
 
-<div class="grid">
+<h3>Simulation</h3>
 
 <input type="number" id="productValue" placeholder="Product Value">
-
 <input type="number" id="shippingCost" placeholder="Shipping Cost">
-
 <input type="number" id="customsRate" placeholder="Customs %">
-
-<input type="number" id="marginRate" placeholder="Target Margin %">
+<input type="number" id="marginRate" placeholder="Margin %">
 
 <select id="country"></select>
-
 <select id="currency"></select>
 
-</div>
+<button onclick="calculate()">Run Simulation</button>
 
-<div class="buttons">
-<button onclick="calculate()">Calculate</button>
-<button onclick="exportCSV()">CSV Export</button>
-<button onclick="exportPDF()">PDF Export</button>
-<button onclick="saveScenario()">Save Scenario</button>
-</div>
-
-<div id="result" class="result-box"></div>
+<div id="result"></div>
 
 <canvas id="profitChart"></canvas>
 
 </div>
 
-<footer class="footer">
-Premium Business Calculator SaaS Edition
-</footer>
+<div class="card">
+
+<h3>Saved Scenarios</h3>
+<div id="scenarioList"></div>
+
+</div>
 
 </div>
 
