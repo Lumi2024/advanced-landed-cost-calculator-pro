@@ -2,16 +2,63 @@ const vatRates = {
     FR: 20,
     DE: 19,
     ES: 21,
-    IT: 22
+    IT: 22,
+    NL: 21,
+    BE: 21,
+    PL: 23,
+    PT: 23,
+    IE: 23
 };
 
-const currencyRates = {
-    EUR: 1,
-    USD: 1.08,
-    GBP: 0.85
-};
-
+let fxRates = {};
 let lastCalculation = null;
+
+/* --------------------------
+Load FX Rates
+-------------------------- */
+
+async function loadFXRates() {
+    try {
+        const res = await fetch(
+            CONFIG.FX_API + "?base=" + CONFIG.DEFAULT_BASE
+        );
+
+        const data = await res.json();
+        fxRates = data.rates;
+
+    } catch (e) {
+        console.warn("FX API fallback mode");
+        fxRates = {
+            USD: 1.08,
+            GBP: 0.85,
+            EUR: 1
+        };
+    }
+}
+
+/* --------------------------
+Init UI
+-------------------------- */
+
+function initUI() {
+
+    const countrySelect = document.getElementById("country");
+    const currencySelect = document.getElementById("currency");
+
+    Object.keys(vatRates).forEach(c => {
+        countrySelect.innerHTML +=
+            `<option value="${c}">${c}</option>`;
+    });
+
+    ["EUR", "USD", "GBP"].forEach(c => {
+        currencySelect.innerHTML +=
+            `<option value="${c}">${c}</option>`;
+    });
+}
+
+/* --------------------------
+Calculator Core
+-------------------------- */
 
 function calculate() {
 
@@ -19,38 +66,51 @@ function calculate() {
     const shipping = parseFloat(shippingCost.value) || 0;
     const customs = parseFloat(customsRate.value) || 0;
     const margin = parseFloat(marginRate.value) || 0;
-    const country = document.getElementById("country").value;
-    const currency = document.getElementById("currency").value;
 
-    const customsAmount = product * (customs / 100);
+    const country = country.value;
+    const currency = currency.value;
+
+    const vatRate = vatRates[country] || 0;
+
+    const customsAmount = product * customs / 100;
+
     const subtotal = product + shipping + customsAmount;
-    const vatAmount = subtotal * (vatRates[country] / 100);
-    const totalCostEUR = subtotal + vatAmount;
-    const sellingPriceEUR = totalCostEUR * (1 + margin / 100);
 
-    const convertedTotal = totalCostEUR * currencyRates[currency];
-    const convertedSelling = sellingPriceEUR * currencyRates[currency];
+    const vatAmount = subtotal * vatRate / 100;
+
+    const totalEUR = subtotal + vatAmount;
+
+    const sellingEUR = totalEUR * (1 + margin / 100);
+
+    const fx = fxRates[currency] || 1;
+
+    const total = totalEUR * fx;
+    const selling = sellingEUR * fx;
 
     lastCalculation = {
         customsAmount,
         vatAmount,
-        totalCostEUR,
-        sellingPriceEUR,
-        convertedTotal,
-        convertedSelling,
+        total,
+        selling,
         currency
     };
 
     document.getElementById("result").innerHTML = `
-        <strong>Breakdown:</strong><br>
+        <h3>Result</h3>
         Customs: ${customsAmount.toFixed(2)} EUR<br>
-        VAT: ${vatAmount.toFixed(2)} EUR<br><br>
-        <strong>Total Cost:</strong> ${convertedTotal.toFixed(2)} ${currency}<br>
-        <strong>Selling Price:</strong> ${convertedSelling.toFixed(2)} ${currency}
+        VAT: ${vatAmount.toFixed(2)} EUR<br>
+        <hr>
+        Total Cost: ${total.toFixed(2)} ${currency}<br>
+        Selling Price: ${selling.toFixed(2)} ${currency}
     `;
 }
 
+/* --------------------------
+Scenario Storage
+-------------------------- */
+
 function saveScenario() {
+
     const scenario = {
         product: productValue.value,
         shipping: shippingCost.value,
@@ -60,22 +120,20 @@ function saveScenario() {
         currency: currency.value
     };
 
-    localStorage.setItem("landedCostScenario", JSON.stringify(scenario));
+    localStorage.setItem(
+        "landedCostScenario",
+        JSON.stringify(scenario)
+    );
+
     alert("Scenario saved!");
 }
 
-function loadScenario() {
-    const saved = localStorage.getItem("landedCostScenario");
-    if (!saved) return alert("No saved scenario");
+/* --------------------------
+Startup
+-------------------------- */
 
-    const scenario = JSON.parse(saved);
+window.onload = async () => {
 
-    productValue.value = scenario.product;
-    shippingCost.value = scenario.shipping;
-    customsRate.value = scenario.customs;
-    marginRate.value = scenario.margin;
-    country.value = scenario.country;
-    currency.value = scenario.currency;
-
-    calculate();
-}
+    initUI();
+    await loadFXRates();
+};
