@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Landed Cost Calculator PRO</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Landed Cost Calculator PRO</h2>
+
+    <div class="grid">
+        <input type="number" id="productValue" placeholder="Product Value" step="0.01">
+        <input type="number" id="shippingCost" placeholder="Shipping Cost" step="0.01">
+        <input type="number" id="customsRate" placeholder="Customs %" step="0.01">
+        <input type="number" id="marginRate" placeholder="Margin %" step="0.01">
+
+        <select id="country">
+            <option value="FR">France (20%)</option>
+            <option value="DE">Germany (19%)</option>
+            <option value="ES">Spain (21%)</option>
+            <option value="IT">Italy (22%)</option>
+        </select>
+
+        <select id="currency">
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+        </select>
+    </div>
+
+    <div class="buttons">
+        <button onclick="calculate()">Calculate</button>
+        <button onclick="exportCSV()">Export CSV</button>
+        <button onclick="exportPDF()">Export PDF</button>
+        <button onclick="saveScenario()">Save</button>
+        <button onclick="loadScenario()">Load</button>
+    </div>
+
+    <div id="result" class="result-box"></div>
+</div>
+
+<script src="app.js"></script>
+<script src="../shared-assets/csvExport.js"></script>
+<script src="../shared-assets/pdfExport.js"></script>
+
+</body>
+</html>
