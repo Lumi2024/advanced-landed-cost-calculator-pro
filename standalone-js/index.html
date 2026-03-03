@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Landed Cost Calculator PRO</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta charset="UTF-8">
+<title>Advanced Landed Cost Calculator PRO</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Landed Cost Calculator PRO</h2>
+<div class="app-wrapper">
 
-    <div class="grid">
-        <input type="number" id="productValue" placeholder="Product Value" step="0.01">
-        <input type="number" id="shippingCost" placeholder="Shipping Cost" step="0.01">
-        <input type="number" id="customsRate" placeholder="Customs %" step="0.01">
-        <input type="number" id="marginRate" placeholder="Margin %" step="0.01">
+<header class="header">
+<h1>📦 Landed Cost Calculator PRO</h1>
+<p>Smart Import Cost Simulation Tool</p>
+</header>
 
-        <select id="country">
-            <option value="FR">France (20%)</option>
-            <option value="DE">Germany (19%)</option>
-            <option value="ES">Spain (21%)</option>
-            <option value="IT">Italy (22%)</option>
-        </select>
+<section class="card">
 
-        <select id="currency">
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-            <option value="GBP">GBP</option>
-        </select>
-    </div>
+<div class="grid">
 
-    <div class="buttons">
-        <button onclick="calculate()">Calculate</button>
-        <button onclick="exportCSV()">Export CSV</button>
-        <button onclick="exportPDF()">Export PDF</button>
-        <button onclick="saveScenario()">Save</button>
-        <button onclick="loadScenario()">Load</button>
-    </div>
+<input type="number" id="productValue" placeholder="Product Value">
 
-    <div id="result" class="result-box"></div>
+<input type="number" id="shippingCost" placeholder="Shipping Cost">
+
+<input type="number" id="customsRate" placeholder="Customs %">
+
+<input type="number" id="marginRate" placeholder="Margin %">
+
+<select id="country"></select>
+
+<select id="currency"></select>
+
 </div>
 
-<script src="app.js"></script>
-<script src="../shared-assets/csvExport.js"></script>
-<script src="../shared-assets/pdfExport.js"></script>
+<div class="buttons">
+<button onclick="calculate()">🚀 Calculate</button>
+<button onclick="exportCSV()">📊 CSV</button>
+<button onclick="exportPDF()">📄 PDF</button>
+<button onclick="saveScenario()">💾 Save</button>
+</div>
+
+<div id="result" class="result-box"></div>
+
+</section>
+
+<footer class="footer">
+Advanced PRO Calculator • SaaS Ready Version
+</footer>
+
+</div>
 
 </body>
 </html>
